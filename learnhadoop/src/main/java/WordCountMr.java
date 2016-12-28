@@ -1,5 +1,6 @@
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -20,6 +21,7 @@ import java.util.StringTokenizer;
 public class WordCountMr extends Configured implements Tool {
 
     public static class WordCountMapper extends Mapper<LongWritable,Text,Text,IntWritable> {
+
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             StringTokenizer stringTokenizer = new StringTokenizer(value.toString());
@@ -40,21 +42,32 @@ public class WordCountMr extends Configured implements Tool {
         }
     }
     @Override
-    public int run(String[] strings) throws Exception {
+    public int run(String[] args) throws Exception {
+        if (args.length < 2 ) {
+            System.out.println("Please provide input and output paths");
+        }
         Configuration conf = this.getConf();
         Job job = new Job(this.getConf());
         job.setJobName("Word Count mapreduce");
         job.setJarByClass(WordCountMr.class);
         job.setMapperClass(WordCountMapper.class);
-        job.setCombinerClass(WordCountReducer.class);
+//        job.setCombinerClass(WordCountReducer.class);
         job.setReducerClass(WordCountReducer.class);
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
         job.setOutputFormatClass(TextOutputFormat.class);
-        job.setNumReduceTasks(5);
-        FileInputFormat.setInputPaths(job,new Path("/user/mukund/test"),new Path("/user/mukund/input1"),new Path("/user/mukund/input2"));
-        FileOutputFormat.setOutputPath(job,new Path("/user/mukund/out"));
+        FileInputFormat.setInputPaths(job,new Path(args[0]));
+        removeOutputPathIfExists(new Path(args[1]));
+        FileOutputFormat.setOutputPath(job,new Path(args[1]));
+        job.submit();
         return job.waitForCompletion(true) ? 0 : 1;
+    }
+    private void removeOutputPathIfExists(Path path) throws IOException
+    {
+        FileSystem fileSystem = FileSystem.get(this.getConf());
+        if (fileSystem.exists(path)) {
+            fileSystem.delete(path,true);
+        }
     }
 
 

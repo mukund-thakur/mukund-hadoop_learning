@@ -1,6 +1,0 @@
-WordCountMr$WordCountMapper.class
-FileMergerMr$FileMergerMapper.class
-WordCountMr$WordCountReducer.class
-WordCountMr.class
-FileMergerMr.class
-ReadFileFromHdfs.class
