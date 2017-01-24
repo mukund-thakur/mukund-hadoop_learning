@@ -12,7 +12,7 @@ function die()
 [ -z "$PACKAGE" ] && die "No package name specified"
 [ ! -d $LOCAL_DIR ] && die "$LOCAL_DIR doesnot exist"
 
-DEB_DEIR="$LOCAL_DIR/deb"
+DEB_DIR="$LOCAL_DIR/deb"
 cd $LOCAL_DIR
 
 cd learnhadoop
