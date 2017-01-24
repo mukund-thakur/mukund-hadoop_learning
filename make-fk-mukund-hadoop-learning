@@ -28,10 +28,7 @@ mdkir $DEB_DIR && cd $DEB_DIR
 cp -r $LOCAL_DIR/package/DEBIAN/* .
 
 mkdir -p .$BASE_DIR
-cp -r ./hadoop-dist/target/hadoop-2.6.0/* .$BASE_DIR
-cp run_hadoop .$BASE_DIR/hadoop
+cp -r target/*jar  .$BASE_DIR
 
-chmod +x .$BASE_DIR/hadoop
+find . -type f -exec sed -i "s/__PACKAGE__/$PACKAGE/g"; sed -i "s/_VERSION_/$VERSION/g" {} + 
 
-find . -type f -exec sed -i "s/__PACKAGE__/$PACKAGE/g"; sed -i "s/_VERSION_/$VERSION/g";
-sed -i "s/__TARGET__/$TARGET/g";
