@@ -1,0 +1,8 @@
+Package: __PACKAGE__
+Version: 1._VERSION_
+Priority: standard
+Section: flipkart/analytics
+Depends: oracle-java8-jdk
+Architecture: all
+Maintainer: mukund.thakur@flipkart.com
+Description: my package for hadoop examples
