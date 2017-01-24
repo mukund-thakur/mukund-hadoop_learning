@@ -25,10 +25,10 @@ MVN_STATUS=$?
 
 BASE_DIR="/usr/share/$PACKAGE/"
 mkdir "$DEB_DIR" && cd "$DEB_DIR"
-cp -r $LOCAL_DIR/learnhadoop/package/DEBIAN/* .
+cp -r $LOCAL_DIR/learnhadoop/package/DEBIAN .
 
 mkdir -p .$BASE_DIR
-cp -r target/*jar  .$BASE_DIR
+cp -r ../learnhadoop/target/*jar  .$BASE_DIR
 
 find . -type f -exec sed -i "s/__PACKAGE__/$PACKAGE/g; s/_VERSION_/$VERSION/g;" {} + 
 
