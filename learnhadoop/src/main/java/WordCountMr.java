@@ -46,13 +46,14 @@ public class WordCountMr extends Configured implements Tool {
         if (args.length < 2 ) {
             System.out.println("Please provide input and output paths");
         }
-        Configuration conf = this.getConf();
+
         Job job = new Job(this.getConf());
         job.setJobName("Word Count mapreduce");
         job.setJarByClass(WordCountMr.class);
         job.setMapperClass(WordCountMapper.class);
 //        job.setCombinerClass(WordCountReducer.class);
         job.setReducerClass(WordCountReducer.class);
+
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
         job.setOutputFormatClass(TextOutputFormat.class);
@@ -72,6 +73,7 @@ public class WordCountMr extends Configured implements Tool {
 
 
     public static void main(String[] args) throws Exception {
+
         int  res = ToolRunner.run(new Configuration(),new WordCountMr(),args);
         System.exit(res);
     }
